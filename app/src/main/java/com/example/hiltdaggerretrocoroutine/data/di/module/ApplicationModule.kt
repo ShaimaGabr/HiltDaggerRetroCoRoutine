@@ -1,9 +1,11 @@
 package com.example.hiltdaggerretrocoroutine.data.di.module
 
-import com.example.hiltdaggerretrocoroutine.BuildConfig
+import androidx.viewbinding.BuildConfig
 import com.example.hiltdaggerretrocoroutine.data.api.ApiHelper
 import com.example.hiltdaggerretrocoroutine.data.api.ApiHelperImpl
 import com.example.hiltdaggerretrocoroutine.data.api.ApiService
+import com.example.hiltdaggerretrocoroutine.utiles.Constants
+import com.example.hiltdaggerretrocoroutine.utiles.Constants.Companion.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,8 +20,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class ApplicationModule {
-    @Provides
-    fun provideBaseUrl()=BuildConfig.BASE_URL
+
     @Provides
     @Singleton
     fun provideOKHttpClient()=if(BuildConfig.DEBUG){
@@ -30,7 +31,7 @@ class ApplicationModule {
         OkHttpClient.Builder().build() }
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient,BASE_URL:String):Retrofit=
+    fun provideRetrofit(okHttpClient: OkHttpClient):Retrofit=
         Retrofit.Builder().addConverterFactory(MoshiConverterFactory.create())
             .baseUrl(BASE_URL).client(okHttpClient).build()
     @Provides
